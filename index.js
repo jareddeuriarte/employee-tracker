@@ -8,6 +8,7 @@ const questions = [
         type: 'list',
         message: 'Select an action',
         choices: ['View employee data', 'Add employee data', 'Update employee data']
+
     }
 ]
 
@@ -18,24 +19,20 @@ function init() {
         .then(response => {
             console.log(response)
             //If the response is _____, then do appropriate function
-            switch (response) {
+            switch (response.choose) {
                 case 'View employee data':
-                    console.log('---View employee---')
-                    // viewEmployee()
+                    viewEmployee()
                     break;
                 case 'Add employee data':
-                    console.log('---Add employee---')
-                    // addEmployee()
+                    addEmployee()
                     break;
                 case 'Update employee data':
-                    console.log('---Update employee---')
-                    // updateEmployee()
+                    updateEmployee()
                     break;
             }
         })
 
 }
-
 
 function viewEmployee() {
     console.log('---View employee---')
