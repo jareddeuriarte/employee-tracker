@@ -16,7 +16,6 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
     if (err) throw err;
     console.log(`connected as id ${connection.threadId}\n`);
-    // run the start function after the connection is made to prompt the user
 });
 
 // const afterConnection = () => {
@@ -25,9 +24,6 @@ connection.connect((err) => {
 //       console.table(res);
 //     });
 //   };
-
-
-
 
 
 // Questions for inquirer prompt
@@ -41,15 +37,30 @@ const questions = [
     }
 ]
 
+const addQuestions = [
+    {
+        type: 'input',
+        message: 'Enter employee\'s first name?',
+        name: 'firstName'
 
-
-
-
-
-
-
-
-
+    },
+    {
+        type: 'input',
+        message: 'Enter employee\'s last name?',
+        name: 'lastName'
+    },
+    {
+        type: 'list',
+        message: 'Enter employee role?',
+        choices:['Admin Assistant', 'Admin Coordinator', 'Youth Counselor', 'Lead Youth Counselor', 'Bookkeeper', 'Program Supervisor', 'Operations Supervisor', 'Executive Director'],
+        name: 'role'
+    },
+    {
+        type: 'input',
+        message: 'Enter employee salary?',
+        name: 'salary'
+    }
+]
 
 
 //Initializes inquirer prompts
@@ -74,16 +85,30 @@ function init() {
 
 };
 
-// use connection.query (SELECT ____ FROM ______) in the below functions
-function viewEmployee() {
-    console.log('---View employee---')
-};
+
 function addEmployee() {
     console.log('---Add employee---')
+    inquirer.prompt(addQuestions)
+        //Accepts response from questions
+        .then(response => {
+            console.table(response)
+            //Drilling into response and querying mysql
+        })
 };
-function updateEmployee() {
-    console.log('---Update employee---')
-};
+
+
+
+
+
+
+// use connection.query (SELECT ____ FROM ______) in the below functions
+// function viewEmployee() {
+//     console.log('---View employee---')
+// };
+
+// function updateEmployee() {
+//     console.log('---Update employee---')
+// };
 
 //Calls init function
 init();
