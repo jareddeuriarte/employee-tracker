@@ -148,6 +148,29 @@ function init() {
 
 };
 
+function viewEmployee() {
+    const viewEmp = `SELECT employee.id as 'Emp ID', employee.first_name AS 'First Name' , employee.last_name as 'Last Name', 
+    employee.manager_id as 'Manager ID', department.id as 'Dept Id' , department.name as 'Department',
+    role.id as 'RoleID' , role.title as 'Title', role.salary
+    FROM employee  JOIN role ON role.id = employee.role_id
+    JOIN department on department.id=role.department_id;`
+    connection.query(viewEmp,
+        (err, res) => {
+            if (err) throw err;
+            console.table(res);
+            inquirer.prompt(
+                {
+                    type: 'list',
+                    message: 'Would you like to perform another task?',
+                    choices: ['Yes', 'No'],
+                    name: 'addAnother'
+                }
+            ).then(response => {
+                doMore(response.addAnother);
+            })
+        });
+}
+
 function addEmployee() {
     console.log('---Adding employee---')
     inquirer.prompt(addQuestions)
@@ -182,6 +205,16 @@ function addEmployee() {
                             if (err) throw err;
                             console.table(res);
                         });
+                    connection.query(
+                        'INSERT INTO department SET ?',
+                        {
+                            id: departmentKeys[0].departmentID,
+                            name: departmentKeys[0].department
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
                     doMore(response.addAnother)
                     break;
                 case 'Admin Coordinator':
@@ -210,7 +243,17 @@ function addEmployee() {
                             if (err) throw err;
                             console.table(res);
                         });
-                    doMOre(response.addAnother)
+                    connection.query(
+                        'INSERT INTO department SET ?',
+                        {
+                            id: departmentKeys[0].departmentID,
+                            name: departmentKeys[0].department
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    doMore(response.addAnother)
                     break;
                 case 'Youth Counselor':
                     //Querying MySql
@@ -235,6 +278,16 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
+                        });
+                    connection.query(
+                        'INSERT INTO department SET ?',
+                        {
+                            id: departmentKeys[1].departmentID,
+                            name: departmentKeys[1].department
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
                         });
                     doMore(response.addAnother)
                     break;
@@ -262,6 +315,16 @@ function addEmployee() {
                         (err, res) => {
                             if (err) throw err;
                         });
+                    connection.query(
+                        'INSERT INTO department SET ?',
+                        {
+                            id: departmentKeys[0].departmentID,
+                            name: departmentKeys[0].department
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
                     doMore(response.addAnother)
                     break;
                 case 'Program Supervisor':
@@ -286,6 +349,16 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
+                        });
+                    connection.query(
+                        'INSERT INTO department SET ?',
+                        {
+                            id: departmentKeys[2].departmentID,
+                            name: departmentKeys[2].department
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
                         });
                     doMore(response.addAnother)
                     break;
@@ -312,6 +385,16 @@ function addEmployee() {
                         (err, res) => {
                             if (err) throw err;
                         });
+                    connection.query(
+                        'INSERT INTO department SET ?',
+                        {
+                            id: departmentKeys[2].departmentID,
+                            name: departmentKeys[2].department
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
                     doMore(response.addAnother)
                     break;
                 case 'Executive Director':
@@ -337,6 +420,16 @@ function addEmployee() {
                         (err, res) => {
                             if (err) throw err;
                         });
+                    connection.query(
+                        'INSERT INTO department SET ?',
+                        {
+                            id: departmentKeys[2].departmentID,
+                            name: departmentKeys[2].department
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
                     doMore(response.addAnother)
                     break;
             }
@@ -349,9 +442,16 @@ function doMore(response) {
         init();
     }
     else {
-        console.log('No new emplpoyees to add.')
+        console.log('\n---Done---')
     }
 }
+
+
+function updateEmployee(response) {
+
+}
+
+
 
 //Calls init function
 init();
