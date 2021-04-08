@@ -15,7 +15,6 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
     if (err) throw err;
-    console.log(`connected as id ${connection.threadId}\n`);
 });
 
 // Questions for inquirer prompt
@@ -61,7 +60,7 @@ const addQuestions = [
     },
     {
         type: 'list',
-        message: 'Would you like to add another employee?',
+        message: 'Would you like to perform another task?',
         choices: ['Yes', 'No'],
         name: 'addAnother'
 
@@ -83,7 +82,6 @@ const departmentKeys = [
         departmentID: 333
     },
 ]
-
 const roleKeys = [
     {
         role: 'Admin Assistant',
@@ -143,7 +141,9 @@ function init() {
                 case 'Update employee data':
                     updateEmployee()
                     break;
+                default:
             }
+
         })
 
 };
@@ -182,6 +182,7 @@ function addEmployee() {
                             if (err) throw err;
                             console.table(res);
                         });
+                    doMore(response.addAnother)
                     break;
                 case 'Admin Coordinator':
                     //Querying MySql
@@ -209,6 +210,7 @@ function addEmployee() {
                             if (err) throw err;
                             console.table(res);
                         });
+                    doMOre(response.addAnother)
                     break;
                 case 'Youth Counselor':
                     //Querying MySql
@@ -222,7 +224,6 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
                     connection.query(
                         'INSERT INTO role SET ?',
@@ -234,8 +235,8 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
+                    doMore(response.addAnother)
                     break;
                 case 'Bookkeeper':
                     //Querying MySql
@@ -249,7 +250,6 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
                     connection.query(
                         'INSERT INTO role SET ?',
@@ -261,8 +261,8 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
+                    doMore(response.addAnother)
                     break;
                 case 'Program Supervisor':
                     //Querying MySql
@@ -275,7 +275,6 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
                     connection.query(
                         'INSERT INTO role SET ?',
@@ -287,8 +286,8 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
+                    doMore(response.addAnother)
                     break;
                 case 'Operations Supervisor':
                     //Querying MySql
@@ -301,7 +300,6 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
                     connection.query(
                         'INSERT INTO role SET ?',
@@ -313,8 +311,8 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
+                    doMore(response.addAnother)
                     break;
                 case 'Executive Director':
                     //Querying MySql
@@ -327,7 +325,6 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
                     connection.query(
                         'INSERT INTO role SET ?',
@@ -339,14 +336,14 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
+                    doMore(response.addAnother)
                     break;
             }
         })
 };
 
-function addAnother(response) {
+function doMore(response) {
 
     if (response === 'Yes') {
         init();
