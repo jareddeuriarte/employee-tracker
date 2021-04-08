@@ -18,14 +18,6 @@ connection.connect((err) => {
     console.log(`connected as id ${connection.threadId}\n`);
 });
 
-// const afterConnection = () => {
-//     connection.query('SELECT * FROM songs', (err, res) => {
-//       if (err) throw err;
-//       console.table(res);
-//     });
-//   };
-
-
 // Questions for inquirer prompt
 const questions = [
     {
@@ -52,16 +44,87 @@ const addQuestions = [
     {
         type: 'list',
         message: 'Enter employee role?',
-        choices:['Admin Assistant', 'Admin Coordinator', 'Youth Counselor', 'Lead Youth Counselor', 'Bookkeeper', 'Program Supervisor', 'Operations Supervisor', 'Executive Director'],
+        choices: [
+            'Admin Assistant',
+            'Admin Coordinator',
+            'Youth Counselor',
+            'Bookkeeper',
+            'Program Supervisor',
+            'Operations Supervisor',
+            'Executive Director'],
         name: 'role'
     },
     {
         type: 'input',
         message: 'Enter employee salary?',
         name: 'salary'
+    },
+    {
+        type: 'list',
+        message: 'Would you like to add another employee?',
+        choices: ['Yes', 'No'],
+        name: 'addAnother'
+
     }
 ]
 
+//Keys
+const departmentKeys = [
+    {
+        department: 'Administration',
+        departmentID: 111
+    },
+    {
+        department: 'Youth Program',
+        departmentID: 222
+    },
+    {
+        department: 'Executive',
+        departmentID: 333
+    },
+]
+
+const roleKeys = [
+    {
+        role: 'Admin Assistant',
+        roleID: 20,
+        department: 'Administration',
+        manager: 101
+    },
+    {
+        role: 'Admin Coordinator',
+        roleID: 21,
+        department: 'Administration',
+        manager: 101
+    },
+    {
+        role: 'Youth Counselor',
+        roleID: 22,
+        department: 'Youth Program',
+        manager: 102
+    },
+    {
+        role: 'Bookkeeper',
+        roleID: 23,
+        department: 'Administration',
+        manager: 101
+    },
+    {
+        role: 'Program Supervisor',
+        roleID: 24,
+        department: 'Executive',
+    },
+    {
+        role: 'Operations Supervisor',
+        roleID: 25,
+        department: 'Executive',
+    },
+    {
+        role: 'Executive Director',
+        roleID: 26,
+        department: 'Executive',
+    },
+]
 
 //Initializes inquirer prompts
 function init() {
@@ -85,30 +148,213 @@ function init() {
 
 };
 
-
 function addEmployee() {
-    console.log('---Add employee---')
+    console.log('---Adding employee---')
     inquirer.prompt(addQuestions)
         //Accepts response from questions
         .then(response => {
             console.table(response)
-            //Drilling into response and querying mysql
+            //Determining employee role, then adding employee by querying mysql appropriately
+            switch (response.role) {
+                case 'Admin Assistant':
+                    //Querying MySql
+                    connection.query(
+                        'INSERT INTO employee SET ?',
+                        {
+                            first_name: response.firstName,
+                            last_name: response.lastName,
+                            role_id: roleKeys[0].roleID,
+                            manager_id: roleKeys[0].manager
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    connection.query(
+                        'INSERT INTO role SET ?',
+                        {
+                            id: roleKeys[0].roleID,
+                            title: response.role,
+                            salary: response.salary,
+                            department_id: departmentKeys[0].departmentID
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    break;
+                case 'Admin Coordinator':
+                    //Querying MySql
+                    connection.query(
+                        'INSERT INTO employee SET ?',
+                        {
+                            first_name: response.firstName,
+                            last_name: response.lastName,
+                            role_id: roleKeys[1].roleID,
+                            manager_id: roleKeys[1].manager
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    connection.query(
+                        'INSERT INTO role SET ?',
+                        {
+                            id: roleKeys[1].roleID,
+                            title: response.role,
+                            salary: response.salary,
+                            department_id: departmentKeys[0].departmentID
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    break;
+                case 'Youth Counselor':
+                    //Querying MySql
+                    connection.query(
+                        'INSERT INTO employee SET ?',
+                        {
+                            first_name: response.firstName,
+                            last_name: response.lastName,
+                            role_id: roleKeys[2].roleID,
+                            manager_id: roleKeys[2].manager
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    connection.query(
+                        'INSERT INTO role SET ?',
+                        {
+                            id: roleKeys[2].roleID,
+                            title: response.role,
+                            salary: response.salary,
+                            department_id: departmentKeys[1].departmentID
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    break;
+                case 'Bookkeeper':
+                    //Querying MySql
+                    connection.query(
+                        'INSERT INTO employee SET ?',
+                        {
+                            first_name: response.firstName,
+                            last_name: response.lastName,
+                            role_id: roleKeys[3].roleID,
+                            manager_id: roleKeys[3].manager
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    connection.query(
+                        'INSERT INTO role SET ?',
+                        {
+                            id: roleKeys[3].roleID,
+                            title: response.role,
+                            salary: response.salary,
+                            department_id: departmentKeys[0].departmentID
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    break;
+                case 'Program Supervisor':
+                    //Querying MySql
+                    connection.query(
+                        'INSERT INTO employee SET ?',
+                        {
+                            first_name: response.firstName,
+                            last_name: response.lastName,
+                            role_id: roleKeys[4].roleID,
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    connection.query(
+                        'INSERT INTO role SET ?',
+                        {
+                            id: roleKeys[4].roleID,
+                            title: response.role,
+                            salary: response.salary,
+                            department_id: departmentKeys[2].departmentID
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    break;
+                case 'Operations Supervisor':
+                    //Querying MySql
+                    connection.query(
+                        'INSERT INTO employee SET ?',
+                        {
+                            first_name: response.firstName,
+                            last_name: response.lastName,
+                            role_id: roleKeys[5].roleID,
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    connection.query(
+                        'INSERT INTO role SET ?',
+                        {
+                            id: roleKeys[5].roleID,
+                            title: response.role,
+                            salary: response.salary,
+                            department_id: departmentKeys[2].departmentID
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    break;
+                case 'Executive Director':
+                    //Querying MySql
+                    connection.query(
+                        'INSERT INTO employee SET ?',
+                        {
+                            first_name: response.firstName,
+                            last_name: response.lastName,
+                            role_id: roleKeys[6].roleID,
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    connection.query(
+                        'INSERT INTO role SET ?',
+                        {
+                            id: roleKeys[6].roleID,
+                            title: response.role,
+                            salary: response.salary,
+                            department_id: departmentKeys[2].departmentID
+                        },
+                        (err, res) => {
+                            if (err) throw err;
+                            console.table(res);
+                        });
+                    break;
+            }
         })
 };
 
+function addAnother(response) {
 
-
-
-
-
-// use connection.query (SELECT ____ FROM ______) in the below functions
-// function viewEmployee() {
-//     console.log('---View employee---')
-// };
-
-// function updateEmployee() {
-//     console.log('---Update employee---')
-// };
+    if (response === 'Yes') {
+        init();
+    }
+    else {
+        console.log('No new emplpoyees to add.')
+    }
+}
 
 //Calls init function
 init();
