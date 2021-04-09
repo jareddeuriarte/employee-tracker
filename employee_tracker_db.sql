@@ -9,7 +9,7 @@ CREATE DATABASE employee_tracker_db;
 USE employee_tracker_db;
 
 CREATE TABLE department(
-	id INT PRIMARY KEY,
+	id INT,
 	name VARCHAR (30)
 );
 
@@ -33,10 +33,11 @@ manager_id INT
 );
 
 
--- Selecting 
-SELECT employee.id as 'ID', employee.first_name AS 'First Name' , employee.last_name as 'Last Name', 
-employee.manager_id as 'Manager ID', department.id as 'Dept Id' , department.name as 'Department Name',
-role.id as 'RoleID' , role.title, role.salary
-FROM employee  JOIN role ON role.id = employee.role_id
-JOIN department on department.id=role.department_id;
+-- Selecting (not working correctly, and not sure why)
+SELECT employee.id as 'Emp ID', employee.first_name AS 'First Name' , employee.last_name as 'Last Name', department.name as 'Department', 
+role.salary, employee.manager_id as 'Manager ID' FROM employee 
+LEFT JOIN role ON employee.role_id = role.id 
+LEFT JOIN department on role.department_id = department.id;
+
+
 

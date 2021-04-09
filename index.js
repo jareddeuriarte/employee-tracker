@@ -149,11 +149,7 @@ function init() {
 };
 
 function viewEmployee() {
-    const viewEmp = `SELECT employee.id as 'Emp ID', employee.first_name AS 'First Name' , employee.last_name as 'Last Name', 
-    employee.manager_id as 'Manager ID', department.id as 'Dept Id' , department.name as 'Department',
-    role.id as 'RoleID' , role.title as 'Title', role.salary
-    FROM employee  JOIN role ON role.id = employee.role_id
-    JOIN department on department.id=role.department_id;`
+    const viewEmp = `SELECT * FROM employee_tracker_db.employee;`
     connection.query(viewEmp,
         (err, res) => {
             if (err) throw err;
@@ -176,7 +172,6 @@ function addEmployee() {
     inquirer.prompt(addQuestions)
         //Accepts response from questions
         .then(response => {
-            console.table(response)
             //Determining employee role, then adding employee by querying mysql appropriately
             switch (response.role) {
                 case 'Admin Assistant':
@@ -191,7 +186,6 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
                     connection.query(
                         'INSERT INTO role SET ?',
@@ -203,7 +197,6 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
                     connection.query(
                         'INSERT INTO department SET ?',
@@ -213,7 +206,6 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
                         });
                     doMore(response.addAnother)
                     break;
@@ -229,7 +221,7 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
+
                         });
                     connection.query(
                         'INSERT INTO role SET ?',
@@ -241,7 +233,7 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
+
                         });
                     connection.query(
                         'INSERT INTO department SET ?',
@@ -251,7 +243,7 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
+
                         });
                     doMore(response.addAnother)
                     break;
@@ -287,7 +279,7 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
+
                         });
                     doMore(response.addAnother)
                     break;
@@ -323,7 +315,7 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
+
                         });
                     doMore(response.addAnother)
                     break;
@@ -358,7 +350,7 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
+
                         });
                     doMore(response.addAnother)
                     break;
@@ -393,7 +385,7 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
+
                         });
                     doMore(response.addAnother)
                     break;
@@ -428,7 +420,7 @@ function addEmployee() {
                         },
                         (err, res) => {
                             if (err) throw err;
-                            console.table(res);
+
                         });
                     doMore(response.addAnother)
                     break;
@@ -448,10 +440,129 @@ function doMore(response) {
 
 
 function updateEmployee(response) {
+    inquirer.prompt(
+        {
+            type: 'list',
+            message: 'Which role would you to update?',
+            choices: [
+                'Admin Assistant',
+                'Admin Coordinator',
+                'Youth Counselor',
+                'Bookkeeper',
+                'Program Supervisor',
+                'Operations Supervisor',
+                'Executive Director'],
+            name: 'updateRole'
+        }
+    )
+        .then(response => {
+            switch (response.updateRole) {
+                case 'Admin Assistant':
+                    inquirer.prompt(updateQuestions)
+                        .then(response => {
+                            connection.query(
+                                `UPDATE employee_tracker_db.role SET salary = '${response.salary}' WHERE (id = '20');`,
+                                (err, res) => {
+                                    if (err) throw err;
+                                });
+                            doMore(response.addAnother)
+                        })
+
+                    break;
+                case 'Admin Coordinator':
+                    inquirer.prompt(updateQuestions)
+                        .then(response => {
+                            connection.query(
+                                `UPDATE employee_tracker_db.role SET salary = '${response.salary}' WHERE (id = '21');`,
+                                (err, res) => {
+                                    if (err) throw err;
+                                });
+                            doMore(response.addAnother)
+                        })
+                    break;
+                case 'Youth Counselor':
+                    inquirer.prompt(updateQuestions)
+                        .then(response => {
+                            connection.query(
+                                `UPDATE employee_tracker_db.role SET salary = '${response.salary}' WHERE (id = '22');`,
+                                (err, res) => {
+                                    if (err) throw err;
+                                });
+                            doMore(response.addAnother)
+                        })
+
+                    break;
+                case 'Bookkeeper':
+                    inquirer.prompt(updateQuestions)
+                        .then(response => {
+                            connection.query(
+                                `UPDATE employee_tracker_db.role SET salary = '${response.salary}' WHERE (id = '23');`,
+                                (err, res) => {
+                                    if (err) throw err;
+                                });
+                            doMore(response.addAnother)
+                        })
+
+                    break;
+                case 'Program Supervisor':
+                    inquirer.prompt(updateQuestions)
+                        .then(response => {
+                            connection.query(
+                                `UPDATE employee_tracker_db.role SET salary = '${response.salary}' WHERE (id = '24');`,
+                                (err, res) => {
+                                    if (err) throw err;
+                                });
+                            doMore(response.addAnother)
+                        })
+
+                    break;
+                case 'Operations Supervisor':
+                    inquirer.prompt(updateQuestions)
+                        .then(response => {
+                            connection.query(
+                                `UPDATE employee_tracker_db.role SET salary = '${response.salary}' WHERE (id = '25');`,
+                                (err, res) => {
+                                    if (err) throw err;
+                                });
+                            doMore(response.addAnother)
+                        })
+
+                    break;
+                case 'Executive Director':
+                    inquirer.prompt(updateQuestions)
+                        .then(response => {
+                            connection.query(
+                                `UPDATE employee_tracker_db.role SET salary = '${response.salary}' WHERE (id = '26');`,
+                                (err, res) => {
+                                    if (err) throw err;
+                                });
+                            doMore(response.addAnother)
+                        })
+
+                    break;
+            }
+
+        })
 
 }
 
-
-
 //Calls init function
 init();
+
+
+
+const updateQuestions = [
+    {
+        type: 'input',
+        message: 'Update role salary.',
+        name: 'salary'
+    },
+    {
+        type: 'list',
+        message: 'Would you like to perform another task?',
+        choices: ['Yes', 'No'],
+        name: 'addAnother'
+
+    }
+
+]
